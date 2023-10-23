@@ -14,7 +14,7 @@ public class HighScore : MonoBehaviour
     private List<LeaderBoardEntry> LeaderBoardEntries;
     
     [SerializeField] protected Transform template;
-    [SerializeField] protected Transform container;
+    [SerializeField] protected Transform scrollview;
     
 
     public HighScore()
@@ -24,11 +24,20 @@ public class HighScore : MonoBehaviour
     private void Awake()
     {
         entryContainer = transform.Find("HighScoreEntryContainer");
-      
+        // entryTemplate = entryContainer.transform.Find("HighScoreEntryTemplate");
+        //
+        // entryTemplate.gameObject.SetActive(false);
+        
+        
+
+        float templateHeight = 66.5f;
+        
         for (int i = 0; i < LeaderBoardEntries.Count; i++)
         {
             LeaderBoardEntry item = LeaderBoardEntries[i];
-            Transform entryTransform = Instantiate(template, container);
+            Transform entryTransform = Instantiate(template, scrollview);
+            RectTransform entryRectTransform = entryTransform.GetComponent<RectTransform>();
+            entryRectTransform.anchoredPosition = new Vector2(0, (-templateHeight * i) + 90);
             entryTransform.gameObject.SetActive(true);
             
             entryTransform.Find("Name").GetComponent<Text>().text = item.Name;
